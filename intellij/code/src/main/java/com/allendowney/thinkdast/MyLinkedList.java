@@ -40,8 +40,8 @@ public class MyLinkedList<E> implements List<E> {
 		}
 	}
 
-	private int size;            // keeps track of the number of elements
-	private Node head;           // reference to the first node
+	private int size;            // 요소의 개수를 추적
+	private Node head;           // 첫 번째 노드에 대한 참조
 
 	/**
 	 *
@@ -72,7 +72,7 @@ public class MyLinkedList<E> implements List<E> {
 			head = new Node(element);
 		} else {
 			Node node = head;
-			// loop until the last node
+			// 마지막 노드까지 반복한다.
 			for ( ; node.next != null; node = node.next) {}
 			node.next = new Node(element);
 		}
@@ -82,7 +82,13 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public void add(int index, E element) {
-		//TODO: FILL THIS IN!
+		if (index == 0) {
+			head = new Node(element, head);
+		} else {
+			Node node = getNode(index-1);
+			node.next = new Node(element, node.next);
+		}
+		size++;
 	}
 
 	@Override
@@ -143,7 +149,13 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public int indexOf(Object target) {
-		//TODO: FILL THIS IN!
+		Node node = head;
+		for (int i = 0; i < size; i++){
+			if (equals(target, node.data)){
+				return i;
+			}
+			node = node.next;
+		}
 		return -1;
 	}
 
@@ -208,8 +220,15 @@ public class MyLinkedList<E> implements List<E> {
 
 	@Override
 	public E remove(int index) {
-		//TODO: FILL THIS IN!
-		return null;
+		E element = get(index);
+		if (index == 0) {
+			head = head.next;
+		} else {
+			Node node = getNode(index-1);
+			node.next = node.next.next;
+		}
+		size--;
+		return element;
 	}
 
 	@Override
